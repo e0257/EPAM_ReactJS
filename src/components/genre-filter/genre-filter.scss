@@ -1,0 +1,16 @@
+@import "src/colors";
+
+.genre-list {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+
+  &-item {
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &--active {
+      border-bottom: 2px solid $red;
+    }
+  }
+}
