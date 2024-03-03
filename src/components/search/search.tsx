@@ -7,7 +7,7 @@ interface SearchProps {
   onSearch: (query: string) => void;
 }
 
-function Search({ initialQuery, onSearch }: SearchProps) {
+export default function Search({ initialQuery, onSearch }: SearchProps) {
   const [query, setQuery] = useState(initialQuery);
 
   const handleKeyDown = ({ key }: React.KeyboardEvent) => {
@@ -37,5 +37,3 @@ function Search({ initialQuery, onSearch }: SearchProps) {
     </div>
   );
 }
-
-export default Search;

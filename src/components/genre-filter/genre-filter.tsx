@@ -3,7 +3,7 @@ import './genre-filter.scss';
 
 interface GenreProps {
   genres: string[];
-  selectedGenre: string;
+  selectedGenre?: string;
   onSelect: (genre: string) => void;
 }
 
