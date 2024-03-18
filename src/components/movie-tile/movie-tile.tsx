@@ -1,4 +1,6 @@
 import React, { MouseEvent , useState } from 'react';
+import Dialog from '../dialog/dialog';
+import MovieForm from '../movie-form/movie-form';
 
 import './movie-tile.scss';
 
@@ -12,6 +14,7 @@ interface MovieTileProps {
 
 export default function MovieTile({ imageUrl, movieName, releaseYear, genres, onClick }: MovieTileProps) {
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const openContextMenu = (e: MouseEvent) => {
     e.stopPropagation();
@@ -24,12 +27,21 @@ export default function MovieTile({ imageUrl, movieName, releaseYear, genres, on
   };
 
   const handleEdit = (e: MouseEvent) => {
+    setIsEditDialogOpen(true);
     closeContextMenu(e);
   };
 
   const handleDelete = (e: MouseEvent) => {
     closeContextMenu(e);
   };
+
+  const closeEditDialog = () => {
+    setIsEditDialogOpen(false);
+  };
+
+  const onEditSubmit = (data: any) => {
+    console.log('data =', data);
+  }
 
   return (
     <div className='movie-tile' onClick={onClick}>
@@ -53,6 +65,12 @@ export default function MovieTile({ imageUrl, movieName, releaseYear, genres, on
           <button className='context-menu--edit' onClick={handleEdit}>Edit</button>
           <button className='context-menu--delete' onClick={handleDelete}>Delete</button>
         </div>
+      )}
+
+      {isEditDialogOpen && (
+        <Dialog title="Edit Movie" onClose={closeEditDialog}>
+          <MovieForm onSubmit={onEditSubmit}></MovieForm>
+        </Dialog>
       )}
     </div>
   );

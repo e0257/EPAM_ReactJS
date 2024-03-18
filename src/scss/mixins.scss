@@ -1,0 +1,26 @@
+@import 'colors';
+
+@mixin button {
+  min-width: 180px;
+  font-size: 20px;
+  line-height: 24px;
+  padding: 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+@mixin button-primary {
+  @include button;
+
+  color: $white;
+  background-color: $red;
+  border-color: $red;
+}
+
+@mixin button-secondary {
+  @include button;
+
+  color: $red;
+  background-color: transparent;
+  border-color: $red;
+}
