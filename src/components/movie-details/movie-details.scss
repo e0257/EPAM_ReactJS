@@ -5,6 +5,14 @@
   gap: 10px;
   margin-top: 20px;
 
+  &__close-button {
+    font-size: 40px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: $red;
+  }
+
   &__img {
     width: 324px;
     height: 486px;

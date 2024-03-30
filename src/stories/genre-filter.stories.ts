@@ -18,13 +18,21 @@ export default meta;
 
 export const StoryDefault: Story = {
   args: {
-    genres: ['Action', 'Romance', 'Thriller'],
+    genres: [
+      { label: 'Action', value: 'Action' },
+      { label: 'Romance', value: 'Romance' },
+      { label: 'Thriller', value: 'Thriller' }
+    ],
   },
 };
 
 export const WithSelectedGenre: Story = {
   args: {
-    genres: ['Action', 'Romance', 'Thriller'],
+    genres: [
+      { label: 'Action', value: 'Action' },
+      { label: 'Romance', value: 'Romance' },
+      { label: 'Thriller', value: 'Thriller' }
+    ],
     selectedGenre: 'Romance',
   },
 };

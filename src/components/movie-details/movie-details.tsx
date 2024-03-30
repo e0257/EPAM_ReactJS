@@ -10,11 +10,13 @@ interface MovieDetailsProps {
   genres: string[];
   duration: string;
   description: string;
+  onClose: () => void;
 }
 
-export default function MovieDetails({ imageUrl, movieName, releaseYear, rating, genres, duration, description }: MovieDetailsProps) {
+export default function MovieDetails({ imageUrl, movieName, releaseYear, rating, genres, duration, description, onClose }: MovieDetailsProps) {
   return (
     <div className="movie-details">
+      <button className="movie-details__close-button" onClick={onClose}>×</button>
       <img className="movie-details__img" src={imageUrl} alt={movieName} />
       <div className="movie-details__info">
         <h2 className="movie-details__name">{movieName}</h2>
