@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MovieDetails from './movie-details';
 
 describe('MovieDetails component', () => {
@@ -14,16 +14,16 @@ describe('MovieDetails component', () => {
   };
 
   it('should display movie details correctly', () => {
-    const { getByText, getByRole } = render(<MovieDetails {...movieData} />);
+    render(<MovieDetails {...movieData} onClose={()=>{}} />);
 
-    expect(getByText(movieData.movieName)).toBeInTheDocument();
-    expect(getByText(movieData.rating)).toBeInTheDocument();
-    expect(getByText(movieData.genres.join(', '))).toBeInTheDocument();
-    expect(getByText(String(movieData.releaseYear))).toBeInTheDocument();
-    expect(getByText(movieData.duration)).toBeInTheDocument();
-    expect(getByText(movieData.description)).toBeInTheDocument();
+    expect(screen.getByText(movieData.movieName)).toBeInTheDocument();
+    expect(screen.getByText(movieData.rating)).toBeInTheDocument();
+    expect(screen.getByText(movieData.genres.join(', '))).toBeInTheDocument();
+    expect(screen.getByText(String(movieData.releaseYear))).toBeInTheDocument();
+    expect(screen.getByText(movieData.duration)).toBeInTheDocument();
+    expect(screen.getByText(movieData.description)).toBeInTheDocument();
 
-    const image = getByRole('img', { name: movieData.movieName }) as HTMLImageElement;
+    const image = screen.getByRole('img', { name: movieData.movieName }) as HTMLImageElement;
 
     expect(image.src).toContain(movieData.imageUrl);
   });
