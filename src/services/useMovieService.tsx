@@ -4,7 +4,8 @@ import { Movie, MovieDTO, MovieRequestParams } from '../models';
 interface MovieService {
   loading: boolean;
   error: string | null;
-  getMovies: (params: Partial<MovieRequestParams>) => Promise<Movie[]>
+  getMovies: (params: Partial<MovieRequestParams>) => Promise<Movie[]>,
+  getMovie: (id: number | string) => Promise<Movie>
 }
 
 export function useMovieService(): MovieService {
@@ -16,9 +17,17 @@ export function useMovieService(): MovieService {
     const queryParams = new URLSearchParams(params as Record<string, string>);
     const reqUrl = `${apiBase}/movies?${queryParams.toString()}`;
 
-    const res = await request(reqUrl );
+    const res = await request(reqUrl);
 
     return res?.data?.map(transformMovie);
+  }
+
+  const getMovie = async (id: number | string): Promise<Movie> => {
+    const reqUrl = `${apiBase}/movies/${id}`;
+
+    const res = await request(reqUrl);
+
+    return transformMovie(res);
   }
 
   const transformMovie = (movie: MovieDTO): Movie => {
@@ -37,6 +46,7 @@ export function useMovieService(): MovieService {
   return {
     loading,
     error,
-    getMovies
+    getMovies,
+    getMovie
   }
 }

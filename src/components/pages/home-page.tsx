@@ -8,6 +8,7 @@ import MovieDetails from '../movie-details/movie-details';
 import './home-page.scss';
 import { useMovieService } from '../../services';
 import { Movie } from '../../models';
+import { Routes, Route, useSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 const genres = [
   { label: 'All', value: '' },
@@ -18,13 +19,17 @@ const genres = [
 ];
 
 export function HomePage() {
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const { movieId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedGenre, setSelectedGenre] = useState(searchParams.get('genre') || '');
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [searchQuery, setMoviesSearchQuery] = useState('');
+  const [searchQuery, setMoviesSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [sortOption, setSortOption] = useState<SortOptionType>('Release Date');
+  const [sortOption, setSortOption] = useState<SortOptionType>(searchParams.get('sort') as SortOptionType || 'Release Date');
 
   const { loading, getMovies } = useMovieService();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovies({
@@ -36,18 +41,43 @@ export function HomePage() {
     )
   }, [selectedGenre, searchQuery, sortOption])
 
+  useEffect(() => {
+    const movie = movies.find(m => m.id === Number(movieId));
+    if (movie) {
+      setSelectedMovie(movie);
+    }
+  }, [])
+
   const handleSearch = (query: string) => {
     setMoviesSearchQuery(query)
-    console.log('Search query:', query);
+    setSearchParams((prevParam) => {
+      prevParam.set("search", query);
+
+      return prevParam;
+    });
   }
 
   const handleSelect = (genre: string) => {
     setSelectedGenre(genre);
-    console.log('Selected genre:', genre);
+    setSearchParams((prevParam) => {
+      prevParam.set("genre", genre);
+
+      return prevParam;
+    })
+  }
+
+  const handleSortOption = (sortOption: SortOptionType) => {
+    setSortOption(sortOption);
+    setSearchParams((prevParam) => {
+      prevParam.set("sort", sortOption);
+
+      return prevParam;
+    })
   }
 
   const handleMovieClick = (movie: Movie) => {
     setSelectedMovie(movie);
+    navigate(`/${movie.id}?${searchParams.toString()}`);
   }
 
   const handleMovieDetailsClose = () => {
@@ -56,15 +86,17 @@ export function HomePage() {
 
   return (
     <>
-      <div className="search-container">
-        { selectedMovie
-          ? <MovieDetails {...selectedMovie} onClose={handleMovieDetailsClose}/>
-          : <Search initialQuery={searchQuery} onSearch={handleSearch}/>
-        }
-      </div>
+      <Routes>
+        <Route path="/" element={
+          <div className="search-container">
+            <Search initialQuery={searchQuery} onSearch={handleSearch}/>
+          </div>
+        }/>
+        <Route path="/:movieId" element={<MovieDetails {...selectedMovie} onClose={handleMovieDetailsClose}/>}/>
+      </Routes>
       <div className="filter-sort-controls">
         <GenreFilter genres={genres} selectedGenre={selectedGenre} onSelect={handleSelect} />
-        <SortControl selectedOption={sortOption} onOptionChange={setSortOption} />
+        <SortControl selectedOption={sortOption} onOptionChange={handleSortOption} />
       </div>
       { loading
         ? <span className="spinner"></span>
