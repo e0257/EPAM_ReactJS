@@ -22,6 +22,7 @@ export default function Search({ initialQuery, onSearch }: SearchProps) {
 
   return (
     <div className="search">
+      <h3 className="search-title">Find your movie</h3>
       <input
         className="search-input"
         type="text"

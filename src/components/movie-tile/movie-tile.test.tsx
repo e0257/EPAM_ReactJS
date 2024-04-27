@@ -5,6 +5,7 @@ import MovieTile from './movie-tile';
 describe('MovieTile component', () => {
   const mockedClick = jest.fn();
   const movieData= {
+    id: 123,
     imageUrl: '/sample.jpg',
     movieName: 'Sample Movie',
     releaseYear: 2001,
