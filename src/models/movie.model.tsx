@@ -25,6 +25,7 @@ export interface Movie {
   id: number;
   imageUrl: string;
   movieName: string;
+  releaseDate: string;
   releaseYear: number;
   rating: string;
   duration: string;

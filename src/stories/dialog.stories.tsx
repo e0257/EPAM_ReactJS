@@ -28,13 +28,15 @@ export const EditMovie: Story = {
     title: 'Edit Movie',
     children: <MovieForm
       initialData={{
-        title: 'Dummy Movie',
-        movieUrl: 'http://dummy.url',
-        genre: 'action',
-        overview: 'Dummy Overview',
+        id: 123,
+        movieName: 'Dummy Movie',
+        imageUrl: 'http://dummy.url',
+        genres: ['action'],
+        description: 'Dummy Overview',
+        releaseYear: 2020,
         releaseDate: '2020-01-01',
         rating: '5',
-        timing: '120 min',
+        duration: '120',
       }}
       onSubmit={(data) => console.log(data)}
     />,

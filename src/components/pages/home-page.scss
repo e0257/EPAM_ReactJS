@@ -1,17 +1,21 @@
 @import "src/scss/colors";
+@import "src/scss/mixins";
 
 .filter-sort-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  padding: 10px 20px;
+  background: $black;
 }
 
 .movie-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-top: 20px;
+  padding: 20px;
+  background: $black;
 }
 
 .spinner {
@@ -27,6 +31,34 @@
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+.search-container {
+  padding: 20px;
+  background-image: url("../../../public/background.png");
+  background-position: center;
+  background-size: cover;
+
+  &__add-movie {
+    display: flex;
+    justify-content: end;
+  }
+
+  &__add-movie--link {
+    font-size: 20px;
+    text-transform: uppercase;
+    background-color: $grey;
+    border-radius: 4px;
+    color: $red;
+    padding: 10px 20px;
+    text-decoration: none;
+    opacity: 0.9;
+
+    &::before {
+      content: "+";
+      margin-right: 5px;
+    }
+  }
 }
 
 @keyframes rotation {

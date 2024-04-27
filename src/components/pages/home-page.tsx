@@ -1,14 +1,16 @@
 import Search from '../search/search';
 import GenreFilter from '../genre-filter/genre-filter';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MovieTile from '../movie-tile/movie-tile';
 import SortControl, { SortOptionType } from '../sort-control/sort-control';
 import MovieDetails from '../movie-details/movie-details';
-
-import './home-page.scss';
+import AddMovieFormDialog from '../add-movie-form/add-movie-form';
 import { useMovieService } from '../../services';
 import { Movie } from '../../models';
-import { Routes, Route, useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { Routes, Route, useSearchParams, useNavigate, useParams, Outlet, Link } from 'react-router-dom';
+import EditMovieFormDialog from '../edit-movie-form/edit-movie-form';
+
+import './home-page.scss';
 
 const genres = [
   { label: 'All', value: '' },
@@ -89,10 +91,19 @@ export function HomePage() {
       <Routes>
         <Route path="/" element={
           <div className="search-container">
+            <div className="search-container__add-movie">
+              <Link className="search-container__add-movie--link" to="new">Add Movie</Link>
+            </div>
             <Search initialQuery={searchQuery} onSearch={handleSearch}/>
+            <Outlet></Outlet>
           </div>
-        }/>
+        }>
+          <Route path="/new" element={
+            <AddMovieFormDialog />
+          }></Route>
+        </Route>
         <Route path="/:movieId" element={<MovieDetails {...selectedMovie} onClose={handleMovieDetailsClose}/>}/>
+        <Route path="/:movieId/edit" element={<EditMovieFormDialog/>}/>
       </Routes>
       <div className="filter-sort-controls">
         <GenreFilter genres={genres} selectedGenre={selectedGenre} onSelect={handleSelect} />
@@ -104,6 +115,7 @@ export function HomePage() {
           {movies.map((movie: Movie) =>
             <MovieTile
               key={movie.movieName}
+              id={movie.id}
               imageUrl={movie.imageUrl}
               movieName={movie.movieName}
               releaseYear={movie.releaseYear}

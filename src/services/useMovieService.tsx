@@ -5,7 +5,9 @@ interface MovieService {
   loading: boolean;
   error: string | null;
   getMovies: (params: Partial<MovieRequestParams>) => Promise<Movie[]>,
-  getMovie: (id: number | string) => Promise<Movie>
+  getMovie: (id: number | string) => Promise<Movie>,
+  addMovie: (movie: Movie) => void;
+  editMovie: (movie: Movie) => void;
 }
 
 export function useMovieService(): MovieService {
@@ -30,11 +32,20 @@ export function useMovieService(): MovieService {
     return transformMovie(res);
   }
 
+  const addMovie = (movie: Movie) => {
+    console.log('api add movie =', movie)
+  }
+
+  const editMovie = (movie: Movie) => {
+    console.log('api edit movie =', movie)
+  }
+
   const transformMovie = (movie: MovieDTO): Movie => {
     return {
       id: movie.id,
       movieName: movie.title,
       imageUrl: movie.poster_path,
+      releaseDate: movie.release_date,
       releaseYear: new Date(movie.release_date).getFullYear(),
       rating: `${movie.vote_average}`,
       duration: `${movie.runtime}`,
@@ -47,6 +58,8 @@ export function useMovieService(): MovieService {
     loading,
     error,
     getMovies,
-    getMovie
+    getMovie,
+    addMovie,
+    editMovie
   }
 }
